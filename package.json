@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "nodemailer": "^10.0.9"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
