@@ -1,20 +1,21 @@
 import express from "express";
 import { PORT } from "./config/envConfig.js";
 import { sendBasicEmail } from "./services/emailService.js";
-const setupAndStartServer = () => {
+import { setupJobs } from "./utils/job.js";
+import * as ticketController from "./controllers/ticketController.js"
+import { connectDatabase } from "./config/dbConfig.js";
+const setupAndStartServer = async () => {
     const app = express();
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }))
 
+    app.post("/api/v1/tickets", ticketController.create);
+    
+    await connectDatabase();
     app.listen(PORT, () => {
         console.log(`Server started at port ${PORT}`);
-        sendBasicEmail(
-            'support@admin.com',
-            'argha2489@gmail.com',
-            'This is a test email',
-            'Hey how are you?? I hope you like the support'
-        )
+        setupJobs();
     })
 }
 setupAndStartServer();

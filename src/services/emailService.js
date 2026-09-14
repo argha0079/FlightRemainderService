@@ -1,4 +1,7 @@
 import { sender } from "../config/emailConfig.js";
+import { TicketRepository } from "../repositories/ticketRepository.js";
+
+const repo = new TicketRepository()
 
 export const sendBasicEmail = async(mailFrom, mailTo, mailSubject, mailBody) => {
     try {
@@ -13,4 +16,22 @@ export const sendBasicEmail = async(mailFrom, mailTo, mailSubject, mailBody) => 
     } catch (error) {
         console.log(error);
     }
+}
+
+export const fetchPendingEmails = async (timestamp) => {
+    try {
+        const response = await repo.getAll();         
+        return response;
+    } catch (error) {
+        console.log(error);
     }
+}
+
+export const createNotification = async (data) => {
+    try {
+        const ticket = await repo.create(data);        
+        return ticket;
+    } catch (error) {
+        console.log(error);
+    }
+}

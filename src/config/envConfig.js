@@ -5,5 +5,6 @@ config();
 export const {
     PORT,
     EMAIL_ID,
-    EMAIL_PASS
+    EMAIL_PASS,
+    DATABASE_URL
 } = process.env;
