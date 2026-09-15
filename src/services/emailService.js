@@ -29,7 +29,7 @@ export const updateTicket = async (ticketId, data) => {
 
 export const fetchPendingEmails = async (timestamp) => {
     try {
-        const response = await repo.getAll({ status: "PENDING"});         
+        const response = await repo.get({ status: "PENDING"});         
         return response;
     } catch (error) {
         console.log(error);

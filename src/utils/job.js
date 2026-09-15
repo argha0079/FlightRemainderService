@@ -1,12 +1,14 @@
 import cron from 'node-cron';
-import { sendBasicEmail } from '../services/emailService.js';
+import * as emailService from "../services/emailService.js"
 import { sender } from '../config/emailConfig.js';
+import { EMAIL_ID } from '../config/envConfig.js';
 
 export const setupJobs = () => {
     cron.schedule("*/2 * * * *", async () => {
         const response = await emailService.fetchPendingEmails();
-        response.foreach((email) => {
+        response?.foreach((email) => {
             sender.sendMail({
+                from: EMAIL_ID,
                 to: email.recipientEmail,
                 subject:email.subject,
                 text:email.content

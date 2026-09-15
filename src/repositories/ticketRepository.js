@@ -4,7 +4,7 @@ export class TicketRepository {
 
     async getAll() {
         try {
-            const tickets = await prisma.notificationTicket.findAll();
+            const tickets = await prisma.notificationTicket.findMany();
             return tickets;
         } catch (error) {
             console.log(error);
@@ -44,10 +44,9 @@ export class TicketRepository {
             const ticket = await prisma.notificationTicket.findUnique({
                 where:{
                     id: ticketId
-                }
+                },
+                data
             })
-            if(data.status)
-                ticket.status = data.status;
             return ticket;
         } catch (error) {
             throw error;
