@@ -18,9 +18,18 @@ export const sendBasicEmail = async(mailFrom, mailTo, mailSubject, mailBody) => 
     }
 }
 
+export const updateTicket = async (ticketId, data) => {
+    try {
+        const response = await repo.update(ticketId, data);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const fetchPendingEmails = async (timestamp) => {
     try {
-        const response = await repo.getAll();         
+        const response = await repo.getAll({ status: "PENDING"});         
         return response;
     } catch (error) {
         console.log(error);
