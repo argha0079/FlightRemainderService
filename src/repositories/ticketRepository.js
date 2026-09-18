@@ -41,7 +41,7 @@ export class TicketRepository {
     
     async update(ticketId, data) {
         try {
-            const ticket = await prisma.notificationTicket.findUnique({
+            const ticket = await prisma.notificationTicket.update({
                 where:{
                     id: ticketId
                 },

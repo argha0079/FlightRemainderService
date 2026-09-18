@@ -1,5 +1,6 @@
 import amqplib from "amqplib";
 import { EXCHANGE_NAME, MESSAGE_BROKER_URL} from "../config/envConfig.js";
+
 export const createChannel = async () => {
     try {
         const connection = await amqplib.connect(MESSAGE_BROKER_URL);
@@ -11,13 +12,14 @@ export const createChannel = async () => {
     }
 }
 
-export const subscribeMessage = async (channel, binding_key) => {
+export const subscribeMessage = async (channel, service, binding_key) => {
     try {
-        const applicationQueue = await channel.assertQueue('QUEUE_NAME');
+        const applicationQueue = await channel.assertQueue('REMAINDER_QUEUE');
         channel.bindQueue(applicationQueue.queue, EXCHANGE_NAME, binding_key);
         channel.consume(applicationQueue.queue, msg => {
             console.log("Received data");
-            console.log(msg.content.toString());
+            const payload = JSON.parse(msg.content.toString());
+            service(payload);
             channel.ack(msg);
         })
     } catch (error) {
